@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -143,12 +144,14 @@
     <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetLoader.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="EnvoirmentMap.hpp" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GlobalHeader.h" />
@@ -156,17 +159,28 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShadowMap.hpp" />
     <ClInclude Include="UIManager.hpp" />
     <ClInclude Include="Uniform.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="FragSimpleColor.glsl" />
+    <None Include="env4k.hdr" />
     <None Include="Monke.m" />
+    <None Include="Shaders\FragEnv.glsl" />
+    <None Include="Shaders\FragShadowMap.glsl" />
+    <None Include="Shaders\FragPBR.glsl" />
+    <None Include="Shaders\GeoShadowMap.glsl" />
+    <None Include="Shaders\VertOrth.glsl" />
+    <None Include="Shaders\VertScreen.glsl" />
+    <None Include="Shaders\VertShadownMap.glsl" />
     <None Include="sphere1.m" />
-    <None Include="VertOrth.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="env.jpg" />
+    <Image Include="LowWardrobe_Material_AlbedoTransparency.png" />
+    <Image Include="LowWardrobe_Material_MetallicSmoothness.png" />
+    <Image Include="LowWardrobe_Material_Normal.png" />
     <Image Include="Metal\metal_0002_color_1k.jpg" />
     <Image Include="Metal\metal_0002_metallic_1k.jpg" />
     <Image Include="Metal\metal_0002_roughness_1k.jpg" />
@@ -174,6 +188,7 @@
     <Image Include="rosewood_diff.jpg" />
     <Image Include="rosewood_nor.jpg" />
     <Image Include="rosewood_rough.jpg" />
+    <Image Include="tailo-kazuya-gridhorizon.jpg" />
     <Image Include="Test.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

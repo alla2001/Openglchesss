@@ -18,6 +18,7 @@ public:
 
     Shader(const char* vertexFilePath, const char* fragmentFilePath);
     
+    Shader(const char* vertexFilePath, const char* geomtryFilePath, const char* fragmentFilePath);
 
     inline void ShaderError(unsigned int ID, GLenum shaderType);
     inline void ProgramError(unsigned int ID);
@@ -26,6 +27,7 @@ public:
 
     inline unsigned int LinkShader(unsigned int vertexID, unsigned int fragmentID);
 
+    inline unsigned int LinkShader(unsigned int vertexID, unsigned int geomtryID, unsigned int fragmentID);
     void setBool(const std::string& name, bool value) const;
     // ------------------------------------------------------------------------
     void setInt(const std::string& name, int value) const;

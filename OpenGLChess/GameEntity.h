@@ -26,7 +26,7 @@ class GameEntity {
 	public:
 		
 		int Init();
-		int Draw(glm::mat4 proj, glm::mat4 view, std::vector<Light> lights,glm::vec3 camPos);
+		int Draw(glm::mat4 proj, glm::mat4 view, std::vector<Light> lights, glm::vec3 camPos, float deltaTime, unsigned int cubeMap );
 		void SetPosition(glm::vec3 position);
 		void Scale(glm::vec3 scale);
 		void Scale(float x, float y, float z);
@@ -37,4 +37,5 @@ class GameEntity {
 		void GraphicsDebugFresnel(bool on);
 		void GraphicsDebugGeometry(bool on);
 		void GraphicsDebugDistribution(bool on);
+		int  DrawShadow(Shader* shadowShader, Light light);
 };

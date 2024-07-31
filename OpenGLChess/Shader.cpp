@@ -27,6 +27,24 @@ Shader::Shader(const char* vertexFilePath, const char* fragmentFilePath) {
         }
 }
 
+Shader::Shader(const char* vertexFilePath, const char* geomtryFilePath, const char* fragmentFilePath) {
+    std::string vertexSource, fragmentSource,geomtrySource;
+    std::ifstream vertexFile, fragmentFile,geomtryFile;
+    vertexFile.exceptions(std::ifstream::failbit | std::fstream::badbit);
+    fragmentFile.exceptions(std::ifstream::failbit | std::fstream::badbit);
+    geomtryFile.exceptions(std::ifstream::failbit | std::fstream::badbit);
+    try {
+        std::stringstream vertexStream, fragmentStream,geomtryStream;
+
+        unsigned int vertexID = CompileShader(vertexFilePath, GL_VERTEX_SHADER);
+        unsigned int fragmentID = CompileShader(fragmentFilePath, GL_FRAGMENT_SHADER);
+        unsigned int geomtryID = CompileShader(geomtryFilePath, GL_GEOMETRY_SHADER);
+        shaderProgramID = LinkShader(vertexID,geomtryID, fragmentID);
+    }
+    catch (std::ifstream::failure& e) {
+        std::cout << "ERROR::FILE_NOT_READ" << std::endl;
+    }
+}
 
  void Shader::Use()const {
     glUseProgram(shaderProgramID);
@@ -85,6 +103,19 @@ inline unsigned int Shader::LinkShader(unsigned int vertexID, unsigned int fragm
     glDeleteShader(fragmentID);
     return programID;
 }
+  inline unsigned int Shader::LinkShader(unsigned int vertexID, unsigned int geomtryID, unsigned int fragmentID) {
+      unsigned int programID = glCreateProgram();
+      glAttachShader(programID, vertexID);
+      glAttachShader(programID, fragmentID);
+      glAttachShader(programID, geomtryID);
+      glLinkProgram(programID);
+      ProgramError(programID);
+  
+      glDeleteShader(vertexID);
+      glDeleteShader(fragmentID);
+      glDeleteShader(geomtryID);
+      return programID;
+  }
   void Shader::setBool(const std::string &name, bool value) const
     {         
         glUniform1i(glGetUniformLocation(shaderProgramID, name.c_str()), (int)value); 
@@ -181,3 +212,4 @@ inline unsigned int Shader::LinkShader(unsigned int vertexID, unsigned int fragm
         }
        
     }
+  

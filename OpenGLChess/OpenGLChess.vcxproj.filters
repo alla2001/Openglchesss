@@ -19,6 +19,12 @@
     <Filter Include="Resource Files\Metal">
       <UniqueIdentifier>{af303d38-2cf7-474b-89a9-4af8e98ed332}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{11bc0f0a-6b0f-4f14-a341-5aa460864f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Textures">
+      <UniqueIdentifier>{f3b9f962-b6cd-4e52-b9d1-303baea7a902}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -57,6 +63,12 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -89,37 +101,49 @@
     <ClInclude Include="UIManager.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="EnvoirmentMap.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMap.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="VertOrth.glsl">
-      <Filter>Resource Files</Filter>
+    <None Include="Shaders\FragPBR.glsl">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="FragSimpleColor.glsl">
-      <Filter>Resource Files</Filter>
+    <None Include="Shaders\FragEnv.glsl">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="sphere1.m">
-      <Filter>Resource Files</Filter>
+    <None Include="Shaders\VertOrth.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\VertScreen.glsl">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="Monke.m">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="sphere1.m">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Shaders\FragShadowMap.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\GeoShadowMap.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\VertShadownMap.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="env4k.hdr">
+      <Filter>Resource Files\Textures</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Test.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="rosewood_arm.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="rosewood_diff.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="rosewood_nor.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="rosewood_rough.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Metal\metal_0002_color_1k.jpg">
       <Filter>Resource Files\Metal</Filter>
     </Image>
@@ -128,6 +152,36 @@
     </Image>
     <Image Include="Metal\metal_0002_roughness_1k.jpg">
       <Filter>Resource Files\Metal</Filter>
+    </Image>
+    <Image Include="Test.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="rosewood_arm.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="rosewood_diff.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="rosewood_nor.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="rosewood_rough.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="tailo-kazuya-gridhorizon.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="env.jpg">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="LowWardrobe_Material_AlbedoTransparency.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="LowWardrobe_Material_MetallicSmoothness.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="LowWardrobe_Material_Normal.png">
+      <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
 </Project>
