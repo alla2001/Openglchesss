@@ -74,7 +74,7 @@ int main() {
 	gameEntites.push_back(MeshObjectCloset);*/
 	EnvoirmentMap EnvMap = EnvoirmentMap();
 	Camera mainCamera = Camera();
-	mainCamera.m_FOV = 45;
+	mainCamera.m_FOV = 80;
 	mainCamera.m_position = glm::vec3(0, 0, -3);
 	unsigned int envText = AssetLoader::LoadTexture("env4k.hdr");
 
@@ -106,11 +106,11 @@ int main() {
 	}
 	using ms = std::chrono::duration<float, std::milli>;
 	float deltaTime=0.0f;
-	float speed = 0.1f;
+	float speed = 1;
 	std::chrono::high_resolution_clock timer;
 	float sensitiviy = 0.01f;
 	glfwSetInputMode(m_window.GetWindowID(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	DungeonGenerator dungeon(20, 20, 50, gameEntites, &shader);
+	DungeonGenerator dungeon(10,10, 25, gameEntites, &shader);
 	while (!m_window.ShouldClose())
 	{
 		//Add AABB for Oclusion Culling
@@ -119,7 +119,7 @@ int main() {
 		
 		auto start = timer.now();
 	
-		for (auto& light : lights) {
+		/*for (auto& light : lights) {
 			light.ConstructShadowMatrix();
 			light.InitRenderShadows(  shadowMap.m_frameBuffer);
 
@@ -141,14 +141,15 @@ int main() {
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glDrawBuffer(GL_FRONT);
 			glReadBuffer(GL_FRONT);
-		}
+		}*/
 
 		
 		
 		glViewport(0, 0, m_window.m_width, m_window.m_height);
-		mainCamera.UpdateVPMat(m_window.m_width, m_window.m_height);
-		mainCamera.Translate((mainCamera.forward * move.y + mainCamera.right * move.x) * deltaTime * speed);
+		
 		mainCamera.Rotate(-mouseDelta.y * deltaTime * sensitiviy * 0.01f, -mouseDelta.x * sensitiviy * deltaTime * 0.01f, 0);
+		mainCamera.Translate((mainCamera.forward * -move.y + mainCamera.right * move.x) * deltaTime * speed*0.01f);
+		mainCamera.UpdateVPMat(m_window.m_width, m_window.m_height);
 		
 		EnvMap.DrawMap(mainCamera.m_projection, mainCamera.m_rotationMat, mainCamera.m_position);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
