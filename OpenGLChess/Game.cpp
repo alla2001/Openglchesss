@@ -17,6 +17,8 @@
 #include "EnvoirmentMap.hpp"
 #include "ShadowMap.hpp"
 #include "Camera.h"
+#include "DungeonGenerator.h"
+
 
 void ResizeCallBack(GLFWwindow* window, int w, int h);
 void ProcessInputs();
@@ -39,11 +41,11 @@ int main() {
 	Shader shader("Shaders/VertOrth.glsl", "Shaders/FragPBR.glsl");
 	Shader shaderEnv("Shaders/VertScreen.glsl", "Shaders/FragEnv.glsl");
 	Shader shadowShader( "Shaders/VertShadownMap.glsl", "Shaders/GeoShadowMap.glsl","Shaders/FragShadowMap.glsl");
-	std::unique_ptr<Mesh> monkey = std::unique_ptr<Mesh>(AssetLoader::LoadMesh("monke.m"));
-	std::unique_ptr<Mesh> sphere = std::unique_ptr<Mesh>(AssetLoader::LoadMesh("sphere1.m")); 
-	std::unique_ptr<Mesh> quad = std::unique_ptr<Mesh>(AssetLoader::LoadMesh("quad.m")); 
+	//std::unique_ptr<Mesh> monkey = std::unique_ptr<Mesh>(AssetLoader::LoadMesh("monke.m"));
+	//std::unique_ptr<Mesh> sphere = std::unique_ptr<Mesh>(AssetLoader::LoadMesh("sphere1.m")); 
+	//std::unique_ptr<Mesh> quad = std::unique_ptr<Mesh>(AssetLoader::LoadMesh("quad.m")); 
 	std::unique_ptr<Mesh> bolb = std::unique_ptr<Mesh>(AssetLoader::LoadMesh("LightBolb.m"));
-	std::unique_ptr<Mesh> closet = std::unique_ptr<Mesh>(AssetLoader::LoadMesh("Closet.m"));
+	//std::unique_ptr<Mesh> closet = std::unique_ptr<Mesh>(AssetLoader::LoadMesh("Closet.m"));
 
 	unsigned int albedoTex = AssetLoader::LoadTexture("rosewood_diff.jpg");
 	unsigned int normalTex = AssetLoader::LoadTexture("rosewood_rough.jpg");
@@ -60,15 +62,16 @@ int main() {
 	unsigned int normalCloset = AssetLoader::LoadTexture("LowWardrobe_Material_Normal.png");
 	unsigned int metalicRoughCloset = AssetLoader::LoadTexture("LowWardrobe_Material_MetallicSmoothness.png");
 
-	GameEntity* MeshObject = new GameEntity(sphere.get(), &shader);
+	
+	/*GameEntity* MeshObject = new GameEntity(sphere.get(), &shader);
 	GameEntity* MeshObject1 = new GameEntity(monkey.get(), &shader);
-	GameEntity* MeshObjectCloset = new GameEntity(closet.get(), &shader);
+	GameEntity* MeshObjectCloset = new GameEntity(closet.get(), &shader);*/
 	GameEntity* lightMesh = new GameEntity(bolb.get(), &shader);
-	GameEntity* floor = new GameEntity(quad.get(), &shader);
-	gameEntites.push_back(MeshObject);
+	//GameEntity* floor = new GameEntity(quad.get(), &shader);
+	/*gameEntites.push_back(MeshObject);
 	gameEntites.push_back(MeshObject1);
 	gameEntites.push_back(floor);
-	gameEntites.push_back(MeshObjectCloset);
+	gameEntites.push_back(MeshObjectCloset);*/
 	EnvoirmentMap EnvMap = EnvoirmentMap();
 	Camera mainCamera = Camera();
 	mainCamera.m_FOV = 45;
@@ -79,16 +82,16 @@ int main() {
 
 	lightMesh->Scale(0.1f, 0.1f, 0.1f);
 
-	MeshObject->SetMaterialProperties(albedoTex, normalTex, roughnessTex, roughnessTex);
+	/*MeshObject->SetMaterialProperties(albedoTex, normalTex, roughnessTex, roughnessTex);
 	MeshObject1->SetMaterialProperties(albedoTex1, normalTex1, metallicTex1, roughnessTex1);
 	MeshObjectCloset->SetMaterialProperties(albedoTexCloset, normalCloset, metalicRoughCloset, metalicRoughCloset);
-	floor->SetMaterialProperties(albedoTex, normalTex, metallicTex, roughnessTex);
+	floor->SetMaterialProperties(albedoTex, normalTex, metallicTex, roughnessTex);*/
 	ShadowMap shadowMap = ShadowMap();
 	shadowMap.Init();
-	floor->SetPosition(glm::vec3(0, -2, 0));
+	/*floor->SetPosition(glm::vec3(0, -2, 0));
 	floor->Scale(2, 2, 2);
 	MeshObject1->SetPosition(glm::vec3(1,1, -3));
-	MeshObject->SetPosition(glm::vec3(-1, -1, -1));
+	MeshObject->SetPosition(glm::vec3(-1, -1, -1));*/
     // make sure to initialize matrix to identity matrix first
 	
 	UIManager::Init(m_window);
@@ -107,6 +110,7 @@ int main() {
 	std::chrono::high_resolution_clock timer;
 	float sensitiviy = 0.01f;
 	glfwSetInputMode(m_window.GetWindowID(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	DungeonGenerator dungeon(20, 20, 50, gameEntites, &shader);
 	while (!m_window.ShouldClose())
 	{
 		//Add AABB for Oclusion Culling
@@ -144,17 +148,17 @@ int main() {
 		glViewport(0, 0, m_window.m_width, m_window.m_height);
 		mainCamera.UpdateVPMat(m_window.m_width, m_window.m_height);
 		mainCamera.Translate((mainCamera.forward * move.y + mainCamera.right * move.x) * deltaTime * speed);
-		mainCamera.Rotate(-mouseDelta.y * deltaTime * sensitiviy, -mouseDelta.x * sensitiviy * deltaTime, 0);
+		mainCamera.Rotate(-mouseDelta.y * deltaTime * sensitiviy * 0.01f, -mouseDelta.x * sensitiviy * deltaTime * 0.01f, 0);
 		
 		EnvMap.DrawMap(mainCamera.m_projection, mainCamera.m_rotationMat, mainCamera.m_position);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_DEPTH_BUFFER_BIT);
 		lightMesh->SetPosition(lights[0].pos);
 		lightMesh->Draw(mainCamera.m_projection, mainCamera.m_view, lights, mainCamera.m_position,deltaTime, envText);
-		MeshObject1->Draw(mainCamera.m_projection, mainCamera.m_view, lights, mainCamera.m_position, deltaTime, envText);
-		MeshObjectCloset->Draw(mainCamera.m_projection, mainCamera.m_view, lights, mainCamera.m_position, deltaTime, envText);
-		MeshObject->Draw(mainCamera.m_projection, mainCamera.m_view, lights, mainCamera.m_position,deltaTime, envText);
-		floor->Draw(mainCamera.m_projection, mainCamera.m_view, lights, mainCamera.m_position, deltaTime, envText);
+		for (size_t i = 0; i < gameEntites.size(); i++)
+		{
+			gameEntites[i]->Draw(mainCamera.m_projection, mainCamera.m_view, lights, mainCamera.m_position, deltaTime, envText);
+		}
 		UIManager::BeginDrawUI();
 		ImGui::Begin("lights");
 		for(int i =0;i<lights.size();i++)
@@ -177,18 +181,18 @@ int main() {
 		}
 		if (ImGui::Checkbox("Fresnel Debug", &fresnelDebug))
 		{
-			MeshObject->GraphicsDebugFresnel(fresnelDebug);
-			MeshObject1->GraphicsDebugFresnel(fresnelDebug);
+			////MeshObject->GraphicsDebugFresnel(fresnelDebug);
+			//MeshObject1->GraphicsDebugFresnel(fresnelDebug);
 		}
 		if (ImGui::Checkbox("Geometry Debug", &geomtryDebug))
 		{
-			MeshObject->GraphicsDebugGeometry(geomtryDebug);
-			MeshObject1->GraphicsDebugGeometry(geomtryDebug);
+			//MeshObject->GraphicsDebugGeometry(geomtryDebug);
+			//MeshObject1->GraphicsDebugGeometry(geomtryDebug);
 		}
 		if (ImGui::Checkbox("DistrubtionDebug Debug", &distrubtionDebug))
 		{
-			MeshObject->GraphicsDebugDistribution(distrubtionDebug);
-			MeshObject1->GraphicsDebugDistribution(distrubtionDebug);
+			//MeshObject->GraphicsDebugDistribution(distrubtionDebug);
+			//MeshObject1->GraphicsDebugDistribution(distrubtionDebug);
 		}
 		ImGui::End();
 		ImGui::Begin("Camera");
@@ -199,16 +203,16 @@ int main() {
 		ImGui::DragFloat("Speed", &speed, 0.1f);
 	    ImGui::End();
 		ImGui::Begin("meshObject");
-		ImGui::DragFloat3("Position" , (float*)&MeshObject->m_position, 0.1f);
-		ImGui::DragFloat3("Rotation", (float*)&MeshObject->m_rotation, 0.1f);
+		//ImGui::DragFloat3("Position" , (float*)&MeshObject->m_position, 0.1f);
+		//ImGui::DragFloat3("Rotation", (float*)&MeshObject->m_rotation, 0.1f);
 		ImGui::End();
 		ImGui::Begin("meshObject1");
-		ImGui::DragFloat3("Position", (float*)&MeshObject1->m_position, 0.1f);
-		ImGui::DragFloat3("Rotation", (float*)&MeshObject1->m_rotation, 0.1f);
+		//ImGui::DragFloat3("Position", (float*)&MeshObject1->m_position, 0.1f);
+		//ImGui::DragFloat3("Rotation", (float*)&MeshObject1->m_rotation, 0.1f);
 		ImGui::End();
 		ImGui::Begin("meshObject Closet");
-		ImGui::DragFloat3("Position", (float*)&MeshObjectCloset->m_position, 0.1f);
-		ImGui::DragFloat3("Rotation", (float*)&MeshObjectCloset->m_rotation, 0.1f);
+		//ImGui::DragFloat3("Position", (float*)&MeshObjectCloset->m_position, 0.1f);
+		//ImGui::DragFloat3("Rotation", (float*)&MeshObjectCloset->m_rotation, 0.1f);
 		ImGui::End();
 		UIManager::EndDrawUI();
 		m_window.SwapBuffer();
@@ -276,5 +280,4 @@ void ResizeCallBack(GLFWwindow* window, int w, int h)
 	m_window.m_height = h;
 	glViewport(0, 0,w,h);
 }
-
 

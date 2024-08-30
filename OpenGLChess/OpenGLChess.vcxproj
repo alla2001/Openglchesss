@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="AssetLoader.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DungeonGenerator.h" />
     <ClInclude Include="EnvoirmentMap.hpp" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GlobalHeader.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Users\tixis\Downloads\cube3.m" />
     <None Include="env4k.hdr" />
     <None Include="Monke.m" />
     <None Include="Shaders\FragEnv.glsl" />

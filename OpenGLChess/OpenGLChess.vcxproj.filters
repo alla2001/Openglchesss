@@ -110,6 +110,9 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DungeonGenerator.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\FragPBR.glsl">
@@ -141,6 +144,9 @@
     </None>
     <None Include="env4k.hdr">
       <Filter>Resource Files\Textures</Filter>
+    </None>
+    <None Include="..\..\..\Users\tixis\Downloads\cube3.m">
+      <Filter>Resource Files\Models</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
